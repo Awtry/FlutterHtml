@@ -19,7 +19,7 @@ class TextFieldWidget extends StatelessWidget {
   final bool? isMaxlong;
   final bool? isfilled;
   final TextEditingController? controller;
-  final bool? isMyControllerActivate;
+  final bool? isMyControllerActivate; /* å */
 
   const TextFieldWidget({
     Key? key,
@@ -63,19 +63,31 @@ class TextFieldWidget extends StatelessWidget {
       cursorColor: color,
       style: TextStyle(color: color, fontSize: fontSizeTextField),
       decoration: InputDecoration(
-        labelStyle: TextStyle(color: color),
-        focusColor: color,
-        filled: isfilled,
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4.0),
-          borderSide: BorderSide(color: color!),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4.0),
-          borderSide: BorderSide(color: color!),
-        ),
-        labelText: hintText,
-      ),
+          labelStyle: TextStyle(color: color),
+          focusColor: color,
+          filled: isfilled,
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(4.0),
+            borderSide: BorderSide(color: color!),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(4.0),
+            borderSide: BorderSide(color: color!),
+          ),
+          labelText: hintText,
+          prefixIcon: isPrefixIcon == false
+              ? null
+              : Icon(prefixIconData, size: 30, color: color),
+          suffixIcon: isSuffixIcon == false
+              ? null
+              : GestureDetector(
+                  onTap: onsuffixIconTap,
+                  child: Icon(
+                    sufixtIconData,
+                    size: 25,
+                    color: color,
+                  ),
+                )),
     );
   }
 }

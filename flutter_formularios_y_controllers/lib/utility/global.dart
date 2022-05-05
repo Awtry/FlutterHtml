@@ -7,7 +7,7 @@ class Global {
   static const Color colorNegro = Color.fromARGB(255, 19, 54, 46);
   static const Color colorEmpresa = Color.fromARGB(255, 100, 15, 50);
 
-  mensaje(BuildContext context, String mensaje, String titulo) {
+ static void mensaje(BuildContext context, String mensaje, String titulo, {Color backgroundColorCustom = Colors.yellowAccent}) {
     Flushbar(
       title: titulo,
       message: mensaje,
@@ -15,6 +15,9 @@ class Global {
       isDismissible: false,
       margin: const EdgeInsets.all(8),
       borderRadius: BorderRadius.circular(8),
+      flushbarPosition: FlushbarPosition.TOP,
+      flushbarStyle: FlushbarStyle.GROUNDED,
+      backgroundColor: backgroundColorCustom,
     ).show(context);
   }
 }
