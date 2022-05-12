@@ -7,7 +7,8 @@ class Global {
   static const Color colorNegro = Color.fromARGB(255, 19, 54, 46);
   static const Color colorEmpresa = Color.fromARGB(255, 100, 15, 50);
 
- static void mensaje(BuildContext context, String mensaje, String titulo, {Color backgroundColorCustom = Colors.yellowAccent}) {
+  static void mensaje(BuildContext context, String mensaje, String titulo,
+      {Color backgroundColorCustom = Colors.yellowAccent}) {
     Flushbar(
       title: titulo,
       message: mensaje,
