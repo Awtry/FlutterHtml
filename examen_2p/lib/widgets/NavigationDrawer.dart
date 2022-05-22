@@ -23,7 +23,7 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
             ),
           ),
           Ink(
-            color: Colors.pink,
+            color: Color.fromARGB(255, 32, 99, 175),
             child: ListTile(
               leading: Icon(
                 Icons.food_bank,
@@ -33,11 +33,11 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
                 'Geo',
                 style: TextStyle(color: Colors.white),
               ),
-              //onTap: () {
-              //  Navigator.of(context).pop();
-              //  Navigator.of(context).push(MaterialPageRoute(
-              //       builder: (BuildContext context) => ComidaPage()));
-              //  },
+              onTap: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (BuildContext context) => GeoPage()));
+              },
             ),
           ),
           Divider(

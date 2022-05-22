@@ -21,26 +21,48 @@ class Geo {
   Timezone? timezone;
 
   Geo(
-      {this.ip,
-      this.success,
-      this.type,
-      this.continent,
-      this.continentCode,
-      this.country,
-      this.countryCode,
-      this.region,
-      this.regionCode,
-      this.city,
-      this.latitude,
-      this.longitude,
-      this.isEu,
-      this.postal,
-      this.callingCode,
-      this.capital,
-      this.borders,
-      this.flag,
-      this.connection,
-      this.timezone});
+    ip,
+    succes,
+    type,
+    continet,
+    continetCode,
+    country,
+    countryCode,
+    region,
+    regionCode,
+    city,
+    latitude,
+    longitude,
+    isEu,
+    postal,
+    callingCode,
+    capital,
+    borders,
+    flag,
+    connection,
+    timezone,
+  ) {
+    this.ip = ip;
+    this.success = success;
+    this.type = type;
+    this.continent = continent;
+    this.continentCode = continentCode;
+    this.country = country;
+    this.countryCode = countryCode;
+    this.region = region;
+    this.regionCode = regionCode;
+    this.city = city;
+    this.latitude = latitude;
+    this.longitude = longitude;
+    this.isEu = isEu;
+    this.postal = postal;
+    this.callingCode = callingCode;
+    this.capital = capital;
+    this.borders = borders;
+    this.flag = flag;
+    this.connection = connection;
+    this.timezone = timezone;
+  }
 
   Geo.fromJson(Map<String, dynamic> json) {
     ip = json['ip'];

@@ -1,3 +1,4 @@
+import 'package:examen_2p/widgets/NavigationDrawer.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -11,18 +12,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Flutter Demo',
+        title: 'Miau',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
         home: Scaffold(
           appBar: AppBar(
-            title: const Text('App Drawer'),
+            title: const Text('Que la miau'),
           ),
           body: Center(
-            child: Text('App Drawer'),
+            child: Text('A lo mejor funciona'),
           ),
-          //drawer: NavigationDrawerWidget(),
+          drawer: NavigationDrawerWidget(),
         ));
   }
 }
