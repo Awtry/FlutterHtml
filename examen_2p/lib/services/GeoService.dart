@@ -8,7 +8,7 @@ import 'dart:convert';
 class GeoService {
   List<Geo> Aux = [];
 
-  Future<List<Geo>> obtenerGeoPosicion() async {
+  Future<Geo> obtenerGeoPosicion() async {
     print("Si entra al método");
     var url = Uri.parse("http://ipwho.is/8.8.4.4");
     var response = await http.get(url);
@@ -16,11 +16,13 @@ class GeoService {
     List<Geo> DatosGenerales = [];
 
     if (response.statusCode == 200) {
-      String body = utf8.decode(response.bodyBytes);
-      final GeoData = jsonDecode(body);
+      //final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
+      print(Geo.fromJson(jsonDecode(response.body)));
+      return Geo.fromJson(jsonDecode(response.body));
+      /*DatosGenerales = parsed.toList();
       print("a lo mejor funciona");
-      print(GeoData);
-
+      print(parsed);*/
+/*
       print(GeoData["ip"]);
       print(GeoData["success"]);
       print(GeoData["type"]);
@@ -40,8 +42,8 @@ class GeoService {
       print(GeoData["borders"]);
       print(GeoData["flag"]);
       print(GeoData["connection"]);
-      print(GeoData["timezone"]);
-
+      print(GeoData["timezone"]);*/
+/*
       GeoData["ip"];
       GeoData["success"];
       GeoData["type"];
@@ -61,8 +63,8 @@ class GeoService {
       GeoData["borders"];
       GeoData["flag"];
       GeoData["connection"];
-      GeoData["timezone"];
-
+      GeoData["timezone"];*/
+/*
       for (var i in GeoData) {
         DatosGenerales.add(Geo(
           i["ip"],
@@ -86,11 +88,11 @@ class GeoService {
           i["connection"],
           i["timezone"],
         ));
-      }
+      }*/
       print("Datos gen que trae ");
       print(DatosGenerales);
 
-      return GeoData;
+      // return DatosGenerales;
     } else {
       throw Exception('Ni pedo');
     }
