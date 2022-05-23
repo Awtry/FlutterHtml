@@ -1,3 +1,4 @@
+import 'package:examen_2p/pages/GeoPage.dart';
 import 'package:examen_2p/widgets/NavigationDrawer.dart';
 import 'package:flutter/material.dart';
 
@@ -16,14 +17,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: Scaffold(
-          appBar: AppBar(
-            title: const Text('Que la miau'),
-          ),
-          body: Center(
-            child: Text('A lo mejor funciona'),
-          ),
-          drawer: NavigationDrawerWidget(),
-        ));
+        home: GeoPage()
+    );
   }
 }

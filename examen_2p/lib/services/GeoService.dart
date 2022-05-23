@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:html';
 import 'package:examen_2p/data/Geo.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
@@ -16,83 +17,9 @@ class GeoService {
     List<Geo> DatosGenerales = [];
 
     if (response.statusCode == 200) {
-      //final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
-      print(Geo.fromJson(jsonDecode(response.body)));
+      var parsed = json.decode(response.body);
+      print(parsed);
       return Geo.fromJson(jsonDecode(response.body));
-      /*DatosGenerales = parsed.toList();
-      print("a lo mejor funciona");
-      print(parsed);*/
-/*
-      print(GeoData["ip"]);
-      print(GeoData["success"]);
-      print(GeoData["type"]);
-      print(GeoData["continent"]);
-      print(GeoData["continentCode"]);
-      print(GeoData["country"]);
-      print(GeoData["countryCode"]);
-      print(GeoData["region"]);
-      print(GeoData["regionCode"]);
-      print(GeoData["city"]);
-      print(GeoData["latitude"]);
-      print(GeoData["longitude"]);
-      print(GeoData["isEu,"]);
-      print(GeoData["postal"]);
-      print(GeoData["callingCode"]);
-      print(GeoData["capital"]);
-      print(GeoData["borders"]);
-      print(GeoData["flag"]);
-      print(GeoData["connection"]);
-      print(GeoData["timezone"]);*/
-/*
-      GeoData["ip"];
-      GeoData["success"];
-      GeoData["type"];
-      GeoData["continent"];
-      GeoData["continentCode"];
-      GeoData["country"];
-      GeoData["countryCode"];
-      GeoData["region"];
-      GeoData["regionCode"];
-      GeoData["city"];
-      GeoData["latitude"];
-      GeoData["longitude"];
-      GeoData["isEu,"];
-      GeoData["postal"];
-      GeoData["callingCode"];
-      GeoData["capital"];
-      GeoData["borders"];
-      GeoData["flag"];
-      GeoData["connection"];
-      GeoData["timezone"];*/
-/*
-      for (var i in GeoData) {
-        DatosGenerales.add(Geo(
-          i["ip"],
-          i["success"],
-          i["type"],
-          i["continent"],
-          i["continentCode"],
-          i["country"],
-          i["countryCode"],
-          i["region"],
-          i["regionCode"],
-          i["city"],
-          i["latitude"],
-          i["longitude"],
-          i["isEu,"],
-          i["postal"],
-          i["callingCode"],
-          i["capital"],
-          i["borders"],
-          i["flag"],
-          i["connection"],
-          i["timezone"],
-        ));
-      }*/
-      print("Datos gen que trae ");
-      print(DatosGenerales);
-
-      // return DatosGenerales;
     } else {
       throw Exception('Ni pedo');
     }

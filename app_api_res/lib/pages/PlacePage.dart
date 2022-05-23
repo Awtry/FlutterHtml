@@ -42,7 +42,9 @@ class _PlacePageState extends State<PlacePage> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => PlaceDatailPage(places: snapshot.data[index],)));
+                                      builder: (context) => PlaceDatailPage(
+                                            places: snapshot.data[index],
+                                          )));
                             });
                       });
                 })));
