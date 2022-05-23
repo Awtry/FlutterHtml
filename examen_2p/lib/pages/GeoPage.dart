@@ -29,7 +29,7 @@ class _GeoPageState extends State<GeoPage> {
             if (snapshot.hasData) {
               print(snapshot.data);
               return ListView(
-                children: generalidad(snapshot.data),
+                children: Localizar(snapshot.data),
               );
             } else if (snapshot.hasError) {
               print(snapshot.error);
@@ -47,6 +47,7 @@ class _GeoPageState extends State<GeoPage> {
     );
   }
 
+/*
   List<Widget> generalidad(Geo data) {
     geo.add(Text(data.ip.toString()));
     geo.add(Text(data.success.toString()));
@@ -60,27 +61,25 @@ class _GeoPageState extends State<GeoPage> {
     geo.add(Text(data.longitude.toString()));
     return geo;
   }
-
-  Widget Localizar(Geo data) {
-    return ListView(
-      children: [
-        Text("La ip es: " + data.ip.toString()),
-        Text("Recolección de datos correcta: " + data.success.toString()),
-        Text("Tipo de conexión: " + data.type.toString()),
-        Text("Contiennte: " + data.continent.toString()),
-        Text("Código de continente: " + data.continentCode.toString()),
-        Text("País: " + data.country.toString()),
-        Text("Código de país: " + data.countryCode.toString()),
-        Text("Región: " + data.region.toString()),
-        Text("Código de región: " + data.regionCode.toString()),
-        Text("Ciudad: " + data.city.toString()),
-        Text("Latitud: " + data.latitude.toString()),
-        Text("Longitud: " + data.longitude.toString()),
-        Text("Código postal: " + data.postal.toString()),
-        Text("Lada: " + data.callingCode.toString()),
-        Text("La ip es: " + data.ip.toString()),
-        Text("La ip es: " + data.ip.toString()),
-      ],
-    );
+*/
+  List<Widget> Localizar(Geo data) {
+    geo.add(Text("La ip es: " + data.ip.toString()));
+    geo.add(Text("Recolección de datos correcta: " + data.success.toString()));
+    geo.add(Text("Tipo de conexión: " + data.type.toString()));
+    geo.add(Text("Contiennte: " + data.continent.toString()));
+    geo.add(Text("Código de continente: " + data.continentCode.toString()));
+    geo.add(Text("País: " + data.country.toString()));
+    geo.add(Text("Código de país: " + data.countryCode.toString()));
+    geo.add(Text("Región: " + data.region.toString()));
+    geo.add(Text("Código de región: " + data.regionCode.toString()));
+    geo.add(Text("Ciudad: " + data.city.toString()));
+    geo.add(Text("Latitud: " + data.latitude.toString()));
+    geo.add(Text("Longitud: " + data.longitude.toString()));
+    geo.add(Text("Código postal: " + data.postal.toString()));
+    geo.add(Text("Lada: " + data.callingCode.toString()));
+    geo.add(Text("Capital: " + data.capital.toString()));
+    geo.add(Text("La bordes: " + data.borders.toString()));
+    geo.add(Text("Bandera: " + data.flag.toString()));
+    return geo;
   }
 }
