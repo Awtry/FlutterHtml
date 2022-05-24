@@ -1,7 +1,12 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:examen_2p/data/Geo.dart';
 import 'package:flutter/material.dart';
 import 'package:examen_2p/services/GeoService.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:examen_2p/widgets/textfield_widget.dart';
+import 'package:examen_2p/widgets/button_widget.dart';
 
 import 'package:http/retry.dart';
 
@@ -13,24 +18,37 @@ class GeoPage extends StatefulWidget {
 }
 
 class _GeoPageState extends State<GeoPage> {
+  @override
+  void initState() {
+    super.initState();
+    objData = geoService.obtenerGeoPosicion();
+  }
+
   GeoService geoService = new GeoService();
-  bool cargando = true;
+  GeoService geoServiceAUX = new GeoService();
+  final TextEditingController _controllerIP = TextEditingController();
 
-  List<Widget> geo = [];
-
+  var salida = "";
+  Future<Geo>? objData;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Miaaaaauuuuuuuuuuuuuuuuuuuuu'),
+        title: Text('Rastreador'),
       ),
       body: Container(
         child: FutureBuilder<Geo>(
-          future: geoService.obtenerGeoPosicion(),
+          future: objData,
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
-              
-              return _Uno(snapshot.data);
+              late Geo miau = snapshot.data;
+              if (snapshot.hasData) {
+                if (miau.success != false) {
+                  return _Uno(snapshot.data);
+                } else {
+                  print("Ni de pedo");
+                }
+              }
             } else if (snapshot.hasError) {
               print(snapshot.error);
               print(snapshot.data);
@@ -47,91 +65,245 @@ class _GeoPageState extends State<GeoPage> {
     );
   }
 
-  List<Widget> Localizar(Geo data) {
-    geo.add(Text("La ip es: " + data.ip.toString()));
-    geo.add(Text("Recolección de datos correcta: " + data.success.toString()));
-    geo.add(Text("Tipo de conexión: " + data.type.toString()));
-    geo.add(Text("Contiennte: " + data.continent.toString()));
-    geo.add(Text("Código de continente: " + data.continentCode.toString()));
-    geo.add(Text("País: " + data.country.toString()));
-    geo.add(Text("Código de país: " + data.countryCode.toString()));
-    geo.add(Text("Región: " + data.region.toString()));
-    geo.add(Text("Código de región: " + data.regionCode.toString()));
-    geo.add(Text("Ciudad: " + data.city.toString()));
-    geo.add(Text("Latitud: " + data.latitude.toString()));
-    geo.add(Text("Longitud: " + data.longitude.toString()));
-    geo.add(Text("Código postal: " + data.postal.toString()));
-    geo.add(Text("Lada: " + data.callingCode.toString()));
-    geo.add(Text("Capital: " + data.capital.toString()));
-    geo.add(Text("La bordes: " + data.borders.toString()));
-    geo.add(Text("Bandera: "));
-    //geo.add(Image.asset(data.flag!.img, fit: BoxFit.cover));
-    geo.add(Text("Conexión ISP: " + data.connection!.isp.toString()));
-    geo.add(Text("Conexión Domain: " + data.connection!.domain.toString()));
-    geo.add(Text("Ubicación horaria: " + data.timezone!.id.toString()));
-    geo.add(Text("Hora actaual: " + data.timezone!.currentTime.toString()));
-
-    return geo;
-  }
-
   Widget _Uno(Geo data) {
-    return GridView.count(
-      primary: false,
-      padding: const EdgeInsets.all(20),
-      crossAxisSpacing: 10,
-      mainAxisSpacing: 10,
-      crossAxisCount: 2,
-      children: <Widget>[
-        Container(
-          padding: const EdgeInsets.all(8),
-          color: Colors.teal[200],
-          child: ListView(
-          restorationId: 'list_demo_list_view',
-          padding: const EdgeInsets.symmetric(vertical: 8),
-          children: [
-              Text("Datos generales"),
-              ListTile(
-                title: Text(
-                  data.ip.toString(),
-                ),
-                subtitle: Text("FUCK"),
+    return Center(
+      child: Column(
+        children: <Widget>[
+          Container(
+            child: TextFieldWidget(
+                isPrefixIcon: true,
+                prefixIconData: Icons.person,
+                isSuffixIcon: true,
+                sufixtIconData: Icons.verified_user,
+                isMyControllerActivate: true,
+                controller: _controllerIP,
+                onsuffixIconTap: () {
+                  print('Click');
+                },
+                hintText: 'Ip a rastrear',
+                onChange: (String value) => {
+                      setState(() {
+                        print(value);
+                        salida  = value;
+                        //objData = geoService.obtenerGeoPosicion();
+                      }),
+                    }),
+          ),
+          Container(
+            child: FadeInDown(
+              child: ButtonWidget(
+                title: 'Buscar',
+                otherColor: false,
+                width: 200.0,
+                height: 40.0,
+                colorButton: Color.fromARGB(255, 22, 107, 48),
+                hasColor: false,
+                onPressed: () {
+                  if (_controllerIP.text.isEmpty == false) {
+                    geoService.Nombre(salida);
+                    objData = geoService.obtenerGeoPosicion();
+                    return;
+                  }
+                },
               ),
-              ListTile(
-                title: Text(
-                  data.success.toString(),
-                ),
-                subtitle: Text("Recolección exitosa"),
+            ),
+          ),
+          Expanded(
+            child: Container(
+              child: GridView.count(
+                primary: false,
+                padding: const EdgeInsets.all(20),
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+                crossAxisCount: 2,
+                children: <Widget>[
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    color: Colors.teal[200],
+                    child: ListView(
+                      restorationId: 'list_demo_list_view',
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      children: [
+                        //MARK: IP / Success / Type APARTADO 1
+                        Text("Identificación"),
+                        ListTile(
+                          title: Text(
+                            data.ip.toString(),
+                          ),
+                          subtitle: Text("Ip buscada"),
+                        ),
+                        ListTile(
+                          title: Text(
+                            data.success.toString(),
+                          ),
+                          subtitle: Text("Exito en recolección"),
+                        ),
+                        ListTile(
+                          title: Text(
+                            data.type.toString(),
+                          ),
+                          subtitle: Text("Tipo de conexión"),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    color: Colors.teal[200],
+                    child: ListView(
+                      restorationId: 'list_demo_list_view',
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      children: [
+                        //TODO: Continent / Country / Region APARTADO 2
+                        Text("Datos generales"),
+                        ListTile(
+                          title: Text(
+                            data.continent.toString(),
+                          ),
+                          subtitle: Text(data.continentCode.toString()),
+                        ),
+                        ListTile(
+                          title: Text(
+                            data.country.toString(),
+                          ),
+                          subtitle: Text(data.countryCode.toString()),
+                        ),
+                        ListTile(
+                          title: Text(
+                            data.region.toString(),
+                          ),
+                          subtitle: Text(data.regionCode.toString()),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    color: Colors.teal[300],
+                    child: ListView(
+                      restorationId: 'list_demo_list_view',
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      children: [
+                        // TODO: APARTADO 3
+                        Text("Especificación de ubicación"),
+                        ListTile(
+                          title: Text(
+                            data.city.toString(),
+                          ),
+                          subtitle: Text("Ciudad"),
+                        ),
+                        ListTile(
+                          title: Text(
+                            data.latitude.toString(),
+                          ),
+                          subtitle: Text("Latitud"),
+                        ),
+                        ListTile(
+                          title: Text(
+                            data.longitude.toString(),
+                          ),
+                          subtitle: Text("Longitud"),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    color: Colors.teal[400],
+                    child: ListView(
+                      restorationId: 'list_demo_list_view',
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      children: [
+                        //TODO: APARTADO 4 CP / LADA / CAPITAL / BORDES
+                        Text("Detalles extra"),
+                        ListTile(
+                          title: Text(
+                            data.postal.toString(),
+                          ),
+                          subtitle: Text("Código postal"),
+                        ),
+                        ListTile(
+                          title: Text(
+                            data.callingCode.toString(),
+                          ),
+                          subtitle: Text("Lada"),
+                        ),
+                        ListTile(
+                          title: Text(
+                            data.borders.toString(),
+                          ),
+                          subtitle: Text("Bordes de país"),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    //TODO: APARTADO 5
+                    padding: const EdgeInsets.all(8),
+                    color: Colors.teal[600],
+                    child: SvgPicture.network(data.flag!.img.toString(),
+                        semanticsLabel: 'Acme Logo'),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    color: Colors.teal[600],
+                    child: ListView(
+                      restorationId: 'list_demo_list_view',
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      children: [
+                        //TODO: APARTADO 6 ISP / DOMAIN
+                        Text("Especificación de conexión"),
+                        ListTile(
+                          title: Text(
+                            data.connection!.isp.toString(),
+                          ),
+                          subtitle: Text("ISP"),
+                        ),
+                        ListTile(
+                          title: Text(
+                            data.connection!.domain.toString(),
+                          ),
+                          subtitle: Text("Dominio"),
+                        ),
+                        ListTile(
+                          title: Text(
+                            data.connection!.org.toString(),
+                          ),
+                          subtitle: Text("Organización?"),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    color: Colors.teal[600],
+                    child: ListView(
+                      restorationId: 'list_demo_list_view',
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      children: [
+                        //TODO: APARTADO 7 / TimeZone / CurrentTime
+                        Text("Hora del lugar"),
+                        ListTile(
+                          title: Text(
+                            data.timezone!.id.toString(),
+                          ),
+                          subtitle: Text("Código horario"),
+                        ),
+                        ListTile(
+                          title: Text(
+                            data.timezone!.currentTime.toString(),
+                          ),
+                          subtitle: Text("Hora actual"),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-              ListTile(
-                title: Text(
-                  data.type.toString(),
-                ),
-                subtitle: Text("Tipo de conexión"),
-              ),
-          ],
-        ),
-        ),
-        Container(
-          padding: const EdgeInsets.all(8),
-          color: Colors.teal[300],
-          child: const Text('Sound of screams but the'),
-        ),
-        Container(
-          padding: const EdgeInsets.all(8),
-          color: Colors.teal[400],
-          child: const Text('Who scream'),
-        ),
-        Container(
-          padding: const EdgeInsets.all(8),
-          color: Colors.teal[500],
-          child: const Text('Revolution is coming...'),
-        ),
-        Container(
-          padding: const EdgeInsets.all(8),
-          color: Colors.teal[600],
-          child: const Text('Revolution, they...'),
-        ),
-      ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

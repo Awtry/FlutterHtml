@@ -206,3 +206,7 @@ class Timezone {
     return data;
   }
 }
+
+_miau(){
+  print("");
+}
