@@ -46,7 +46,7 @@ class _GeoPageState extends State<GeoPage> {
                 if (miau.success != false) {
                   return _Uno(snapshot.data);
                 } else {
-                  print("Ni de pedo");
+                  print("No se pudo");
                 }
               }
             } else if (snapshot.hasError) {
